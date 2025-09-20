@@ -1,0 +1,4 @@
+Employee ID,Name,Date,Start Time,End Time,Start Location,End Location,Duration (HH:MM:SS),Daily Total (HH:MM:SS)
+25003,Nishant,2025-09-07,2025-09-07 03:36:09,2025-09-07 03:36:25,"Swarupnagar, North 24 Parganas, West Bengal, 743427, India","Swarupnagar, North 24 Parganas, West Bengal, 743427, India",0:00:16,0:09:33
+25003,Nishant,2025-09-07,2025-09-07 02:28:05,2025-09-07 02:30:21,,,0:02:15,0:09:33
+25003,Nishant,2025-09-07,2025-09-07 02:19:38,2025-09-07 02:26:40,,,0:07:02,0:09:33

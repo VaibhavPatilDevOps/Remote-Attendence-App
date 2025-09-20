@@ -1,0 +1,8 @@
+streamlit
+bcrypt
+pillow
+reportlab
+pandas
+streamlit-js-eval
+pytz
+streamlit-aggrid
