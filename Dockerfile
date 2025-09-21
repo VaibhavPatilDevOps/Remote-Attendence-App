@@ -1,16 +1,15 @@
-# Use official Python base image
+# Use official Python image
 FROM python:3.12-slim
 
 # Set working directory
 WORKDIR /usr/src/app
 
-# Install system dependencies (optional: for psycopg2, MySQL, etc.)
+# Install system dependencies if needed
 RUN apt-get update && apt-get install -y \
     build-essential \
-    libpq-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements first for caching
+# Copy requirements first (for caching)
 COPY requirements.txt .
 
 # Install dependencies
@@ -19,8 +18,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy application code
 COPY . .
 
-# Expose application port (adjust if different)
+# Expose Streamlit port
 EXPOSE 5000
 
-# Run the application
-CMD ["python", "app.py"]
+# Run Streamlit app
+CMD ["python", "-m", "streamlit", "run", "app.py", "--server.port=5000", "--server.address=0.0.0.0"]
