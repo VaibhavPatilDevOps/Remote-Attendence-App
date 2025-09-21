@@ -1,50 +1,26 @@
-# Base Node.js image
-FROM docker.io/library/node:20.15.0 AS base
+# Use official Python base image
+FROM python:3.12-slim
 
 # Set working directory
-WORKDIR /usr/app
+WORKDIR /usr/src/app
 
-# Copy package.json and tsconfig.json
-COPY package.json tsconfig.json ./
+# Install system dependencies (optional: for psycopg2, MySQL, etc.)
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
 
-# Install pnpm globally
-RUN npm install -g pnpm@8.x
+# Copy requirements first for caching
+COPY requirements.txt .
 
-# Install all dependencies, including dev dependencies
-RUN pnpm install
+# Install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Install a specific version of TypeScript
-RUN pnpm add typescript@5.5.4 --save-dev
-
-# Copy the rest of the application code
+# Copy application code
 COPY . .
 
-# Stage 1: Development environment
-FROM base AS development
-
-# Install nodemon globally
-RUN npm install -g nodemon
-
-# Expose application port
+# Expose application port (adjust if different)
 EXPOSE 5000
 
-# Command to run your application in development
-CMD ["pnpm", "run", "start:dev"]
-
-# Stage 2: Production environment
-FROM base AS production
-
-# Install only production dependencies
-RUN pnpm install --production
-
-# Install a specific version of TypeScript
-RUN pnpm add typescript@5.5.4 --save-dev
-
-# Build the application (this assumes tsc is available)
-RUN pnpm run build
-
-# Expose application port
-EXPOSE 5000
-
-# Command to run your application in production
-CMD ["pnpm", "start"]
+# Run the application
+CMD ["python", "app.py"]
